@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Public+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+
+    <title>Stitch Design</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  </head>
+  <body>
+    <div class="relative flex size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden" style='font-family: "Public Sans", "Noto Sans", sans-serif;'>
+      <div class="layout-container flex h-full grow flex-col">
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
+            <h2 class="text-[#111418] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">Authorize Access</h2>
+            <div class="flex p-4 @container">
+              <div class="flex w-full flex-col gap-4 items-center">
+                <div class="flex gap-4 flex-col items-center">
+                  <div
+                    class="bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-32 w-32"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBHzTC2c6J6YIW7xh-u5xYFyyd6BBYp6rau8bhKeZFCP8Z6p-CxWXKv1r13ZjW9dFrOlKVzZmI5xqVPc9Qh3RiLSV3OWFntSg1dlZfGqfvDLCWWFYxaEztZkc-SmMn_M6WeKEw9ivXgYDGxhsBlzzUFw7rYykseaGurueHeziYNThZSD4jUXrP5zxkQwJnEMl9457FIqn7Mf454GMEVX-F8D00Sc8IR3T6kHf6z3J3C9F-CFEfK1pos6UFGkP_zcyh7LHGU2rsuCKo");'
+                  ></div>
+                  <div class="flex flex-col items-center justify-center justify-center">
+                    <p class="text-[#111418] text-[22px] font-bold leading-tight tracking-[-0.015em] text-center">Sophia Clark</p>
+                    <p class="text-[#60758a] text-base font-normal leading-normal text-center">Allow access to healthcare information?</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex px-4 py-3 justify-center">
+              <button
+                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#0c7ff2] text-white text-sm font-bold leading-normal tracking-[0.015em]"
+              >
+                <span class="truncate">Authorize</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
