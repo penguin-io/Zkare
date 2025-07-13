@@ -70,7 +70,6 @@ sendBtn.addEventListener('click', async () => {
   addMessage('user', message);
   input.value = '';
 
-	// API KEY - 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
   try {
 	  const res = await fetch(`https://api.groq.com/openai/v1/chat/completions`, {
   method: 'POST',
