@@ -40,7 +40,7 @@ In comes ZKare. With ZKare, you login to the chatbot website. Your ZK-Prover (su
 ## 📽 Demo
 - 🎥 *Video Link*: https://drive.google.com/file/d/1VEbS-CGb0LhTKNX-6r5eVXHtUaq5zu7a/view?usp=drivesdk
 ![image of chatbot](zkare.png "ZKare")
-
+[More technical details](README_detailed.md)
 ---
 
 ## 📂 Repository Structure
