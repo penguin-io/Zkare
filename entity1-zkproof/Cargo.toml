@@ -1,0 +1,86 @@
+[package]
+name = "zkproof-service"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "server"
+path = "src/main.rs"
+
+[[bin]]
+name = "guest"
+path = "src/guest.rs"
+
+[dependencies]
+# Web framework and async runtime
+tokio = { version = "1.35", features = ["full"] }
+axum = { version = "0.7", features = ["json", "tracing"] }
+tower = { version = "0.4", features = ["util"] }
+tower-http = { version = "0.5", features = ["cors", "trace"] }
+hyper = { version = "1.0", features = ["full"] }
+
+# Serialization and data handling
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+uuid = { version = "1.6", features = ["v4"] }
+
+# Zero-knowledge proofs with RiscZero
+risc0-zkvm = { version = "1.1", features = ["cuda"] }
+risc0-zkp = "1.1"
+risc0-binfmt = "1.1"
+risc0-build = "1.1"
+
+# Cryptography and hashing
+sha2 = "0.10"
+hex = "0.4"
+
+# Database and caching
+sqlx = { version = "0.7", features = ["runtime-tokio-rustls", "postgres", "chrono", "uuid"] }
+redis = { version = "0.24", features = ["tokio-comp", "connection-manager"] }
+
+# Logging and observability
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+tracing-opentelemetry = "0.22"
+opentelemetry = "0.21"
+opentelemetry-jaeger = "0.20"
+
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+
+# Configuration
+config = "0.14"
+dotenvy = "0.15"
+
+# Time handling
+chrono = { version = "0.4", features = ["serde"] }
+
+# Additional utilities
+base64 = "0.21"
+once_cell = "1.19"
+
+[build-dependencies]
+risc0-build = "1.1"
+
+[dev-dependencies]
+tempfile = "3.8"
+criterion = { version = "0.5", features = ["html_reports"] }
+
+[[bench]]
+name = "zkproof_benchmarks"
+harness = false
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[profile.dev]
+opt-level = 0
+debug = true
+
+# RiscZero specific configuration
+[package.metadata.risc0]
+methods = ["guest"]

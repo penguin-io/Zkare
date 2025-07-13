@@ -1,0 +1,106 @@
+version: '3.8'
+
+services:
+  # Entity 1: ZK Proof Generation Service
+  zkproof-service:
+    build:
+      context: ./entity1-zkproof
+      dockerfile: Dockerfile
+    container_name: zkproof-service
+    ports:
+      - "8001:8001"
+    environment:
+      - RUST_LOG=info
+      - RISC0_DEV_MODE=0
+    volumes:
+      - ./data:/app/data
+    networks:
+      - zkp-llm-network
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    runtime: nvidia
+
+  # Entity 2: LLM Advisor Service
+  llm-advisor:
+    build:
+      context: ./entity2-llm
+      dockerfile: Dockerfile
+    container_name: llm-advisor
+    ports:
+      - "8002:8002"
+    environment:
+      - MODEL_PATH=/app/models
+      - ZKPROOF_SERVICE_URL=http://zkproof-service:8001
+      - CUDA_VISIBLE_DEVICES=0
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+    depends_on:
+      - zkproof-service
+    networks:
+      - zkp-llm-network
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    runtime: nvidia
+
+  # Web Interface for demonstration
+  web-interface:
+    build:
+      context: ./web-interface
+      dockerfile: Dockerfile
+    container_name: web-interface
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_LLM_SERVICE_URL=http://localhost:8002
+      - REACT_APP_ZK_SERVICE_URL=http://localhost:8001
+    depends_on:
+      - llm-advisor
+      - zkproof-service
+    networks:
+      - zkp-llm-network
+
+  # Redis for caching proofs and session management
+  redis:
+    image: redis:7-alpine
+    container_name: redis-cache
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - zkp-llm-network
+
+  # PostgreSQL for storing user traits and audit logs
+  postgres:
+    image: postgres:15
+    container_name: postgres-db
+    environment:
+      - POSTGRES_DB=zkp_llm
+      - POSTGRES_USER=zkp_user
+      - POSTGRES_PASSWORD=zkp_secure_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - zkp-llm-network
+
+networks:
+  zkp-llm-network:
+    driver: bridge
+
+volumes:
+  redis-data:
+  postgres-data:
